@@ -149,7 +149,7 @@ class AppxPackager(CollectionPackagerBase):
         defines.setdefault("appx_identity_name", defines["name"])
 
         utils.createDir(self.artifactsDir())
-        defines["setupname"] = self.artifactsDir() / os.path.basename(f"{defines['setupname']}.appx")
+        defines["setupname"] = self.artifactsDir() / os.path.basename(f"{defines['setupname']}.msix")
         defines.setdefault("craft_id", self.package.path.replace("/", "."))
 
         self._setupFileTypes(defines)
@@ -297,14 +297,14 @@ class AppxPackager(CollectionPackagerBase):
                 and self.symbolsImageDir().exists()
                 and any(self.symbolsImageDir().iterdir())
             ):
-                appxSym = Path(defines["setupname"]).with_suffix(".appxsym")
+                appxSym = Path(defines["setupname"]).with_suffix(".msixsym")
                 artifacts += [appxSym]
                 if appxSym.exists():
                     appxSym.unlink()
                 if not utils.compress(appxSym, self.archiveDebugDir()):
                     return False
 
-            appxUpload = (Path(self.packageDestinationDir()) / os.path.basename(defines["setupname"])).with_suffix(".appxupload")
+            appxUpload = (Path(self.packageDestinationDir()) / os.path.basename(defines["setupname"])).with_suffix(".msixupload")
             if appxUpload.exists():
                 appxUpload.unlink()
             if not utils.compress(appxUpload, artifacts):
