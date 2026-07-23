@@ -108,7 +108,7 @@ class PackagerBase(CraftBase):
             manifestLocation = destDir
         manifestLocation = os.path.join(manifestLocation, "manifest.json")
         archiveFile = os.path.join(destDir, archiveName)
-
+        CraftCore.log.debug(f"Try generating manifest for {archiveFile} at {destDir}")
         name = archiveName if not os.path.isabs(archiveName) else os.path.relpath(archiveName, destDir)
         if not self._manifest:
             self._manifest = CraftManifest.load(manifestLocation, urls=manifestUrls)
