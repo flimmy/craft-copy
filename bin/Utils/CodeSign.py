@@ -116,6 +116,7 @@ def __signWindowsWithCustomCommand(customCommand: str, fileNames: Union[Path, st
     CraftCore.log.info("Signing with custom command")
     cmd = shlex.split(customCommand)
     if "%F" in cmd:
+        CraftCore.log.info("Generate FileList for custom command")
         filelistFile = None
         try:
             filelistContent = b"\n".join(str(name).encode() for name in fileNames)
@@ -133,8 +134,12 @@ def __signWindowsWithCustomCommand(customCommand: str, fileNames: Union[Path, st
                 except FileNotFoundError:
                     pass
     else:
+        CraftCore.log.info("Append fileNames to custom command")
         cmd += fileNames
-        if not utils.system(cmd):
+        CraftCore.log.info(f"Running custom command: {' '.join(str(s) for s in cmd)}")
+        ec = utils.system(cmd, displayProgress=True, logCommand=True)
+        CraftCore.log.info(f"Custom command exit code: {ec}")
+        if not ec:
             return False
 
     return True
