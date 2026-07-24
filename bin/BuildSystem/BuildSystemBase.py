@@ -444,7 +444,14 @@ class BuildSystemBase(CraftBase):
                 return False
             if not self.__internalPostInstallHandleSymbols(binaryFiles):
                 return False
-
+            CraftCore.log.info("BuildSystemBase.py Line 447")
+            dbg_isWindows = CraftCore.compiler.isWindows
+            dbg_SignCache = CraftCore.settings.getboolean("CodeSigning", "SignCache", False)
+            dbg_Enabled = CraftCore.settings.getboolean("CodeSigning", "Enabled", False)
+            CraftCore.log.info(f"dbg_isWindows: {dbg_isWindows}")
+            CraftCore.log.info(f"dbg_SignCache: {dbg_SignCache}")
+            CraftCore.log.info(f"dbg_Enabled: {dbg_Enabled}")
+                        
             # sign the binaries before we add them to the cache
             if CraftCore.compiler.isWindows and CraftCore.settings.getboolean("CodeSigning", "SignCache", False) and CraftCore.settings.getboolean("CodeSigning", "Enabled", False):
                 if not CodeSign.signWindows(binaryFiles, package=self):
@@ -456,7 +463,13 @@ class BuildSystemBase(CraftBase):
                 # we use a local certificate, for distribution the files are properly signed in the package step
                 if not utils.localSignMac(binaryFiles):
                     return False
-
+            CraftCore.log.info("BuildSystemBase.py Line 459")
+            dbg_isWindows = CraftCore.compiler.isWindows
+            dbg_SignCache = CraftCore.settings.getboolean("CodeSigning", "SignCache", False)
+            dbg_Enabled = CraftCore.settings.getboolean("CodeSigning", "Enabled", False)
+            CraftCore.log.info(f"dbg_isWindows: {dbg_isWindows}")
+            CraftCore.log.info(f"dbg_SignCache: {dbg_SignCache}")
+            CraftCore.log.info(f"dbg_Enabled: {dbg_Enabled}")
             # sign the binaries if we can.
             # only needed if the cache was not signed
             if CraftCore.compiler.isWindows and not CraftCore.settings.getboolean("CodeSigning", "SignCache", False) and CraftCore.settings.getboolean("CodeSigning", "Enabled", False):

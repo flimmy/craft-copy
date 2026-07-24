@@ -281,7 +281,7 @@ class CollectionPackagerBase(PackagerBase):
                         return False
                 else:
                     CraftCore.log.warning(f"symbols directory {package.symbolsImageDir()} does not exist!")
-
+        CraftCore.log.info("CollectionPackerBase.py Line 284")
         if filesToSign:
             if not CodeSign.signWindows(filesToSign):
                 return False
